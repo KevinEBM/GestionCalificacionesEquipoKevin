@@ -1,4 +1,9 @@
 package com.home.service;
 
-public class CalificacionService {
+import java.util.List;
+
+public interface CalificacionService {
+
+    void registrarEstudiante(String nombre, List<Double> notas);
+
 }

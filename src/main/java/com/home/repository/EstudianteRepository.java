@@ -1,4 +1,9 @@
 package com.home.repository;
 
-public class EstudianteRepository {
+import com.home.model.Estudiante;
+
+public interface EstudianteRepository {
+
+    void guardar(Estudiante estudiante);
+
 }
