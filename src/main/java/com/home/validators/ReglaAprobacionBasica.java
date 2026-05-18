@@ -1,4 +1,4 @@
-package com.home.service;
+package com.home.validators;
 
 public class ReglaAprobacionBasica {
 }
