@@ -1,40 +1,33 @@
 package com.home.service.impl;
 
 import com.home.model.Estudiante;
-import com.home.repository.EstudianteRepository;
-import com.home.service.CalificacionService;
-
 import java.util.List;
 
-public class CalificacionServiceImpl implements CalificacionService {
+public class CalificacionServiceImpl {
 
-    private final EstudianteRepository repository;
+    private List<Estudiante> estudiantes;
 
-    public CalificacionServiceImpl(EstudianteRepository repository) {
-        this.repository = repository;
+    public CalificacionServiceImpl(List<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
     }
 
-    @Override
-    public void registrarEstudiante(String nombre, List<Double> notas) {
-
-        if (nombre == null || nombre.isEmpty()) {
-            throw new IllegalArgumentException("Nombre inválido");
+    // --- Mostrar promedio individual ---
+    public void mostrarPromediosIndividuales() {
+        System.out.println("\n--- Promedios individuales ---");
+        for (Estudiante e : estudiantes) {
+            System.out.println(e.getNombre() + ": " + e.calcularPromedioIndividual());
         }
-
-        if (notas.isEmpty()) {
-            throw new IllegalArgumentException("Debe ingresar al menos una nota");
-        }
-
-        for (double nota : notas) {
-
-            if (nota < 0 || nota > 5) {
-                throw new IllegalArgumentException("Las notas deben estar entre 0 y 5");
-            }
-        }
-
-        Estudiante estudiante = new Estudiante(nombre, notas);
-
-        repository.guardar(estudiante);
     }
 
+    // --- Calcular y mostrar promedio general ---
+    public double calcularPromedioGeneral() {
+        return estudiantes.stream()
+                .mapToDouble(Estudiante::calcularPromedioIndividual)
+                .average()
+                .orElse(0.0);
+    }
+
+    public void mostrarPromedioGeneral() {
+        System.out.println("\nPromedio general del grupo: " + calcularPromedioGeneral());
+    }
 }
