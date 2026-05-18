@@ -1,4 +1,4 @@
-package com.home.service;
+package com.home.service.impl;
 
 import com.home.model.Estudiante;
 import java.util.List;
@@ -11,7 +11,7 @@ public class CalificacionServiceImpl {
         this.estudiantes = estudiantes;
     }
 
-    // Mostrar promedio individual de cada estudiante
+    // --- Mostrar promedio individual ---
     public void mostrarPromediosIndividuales() {
         System.out.println("\n--- Promedios individuales ---");
         for (Estudiante e : estudiantes) {
@@ -19,7 +19,7 @@ public class CalificacionServiceImpl {
         }
     }
 
-    // Calcular promedio general del grupo
+    // --- Calcular y mostrar promedio general ---
     public double calcularPromedioGeneral() {
         return estudiantes.stream()
                 .mapToDouble(Estudiante::calcularPromedioIndividual)
