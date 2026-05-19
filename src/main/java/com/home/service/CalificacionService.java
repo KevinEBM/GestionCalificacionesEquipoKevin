@@ -15,4 +15,6 @@ public interface CalificacionService {
     double calcularPromedioGeneral();
 
     Estudiante obtenerEstudianteConMayorNota();
+
+    List<Estudiante> obtenerEstudiantesAprobados();
 }
