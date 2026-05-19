@@ -4,9 +4,13 @@ import com.home.model.Estudiante;
 import com.home.repository.EstudianteRepository;
 import com.home.service.CalificacionService;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CalificacionServiceImpl implements CalificacionService {
+
+    private static final double NOTA_APROBACION = 3.0;
 
     private final EstudianteRepository repository;
 
@@ -16,10 +20,9 @@ public class CalificacionServiceImpl implements CalificacionService {
 
     @Override
     public void registrarEstudiante(String nombre, List<Double> notas) {
-        // Implementado por Aprendiz 1
+        repository.guardar(new Estudiante(nombre, notas));
     }
 
-    // --- Listar todos los estudiantes (Santiago - Aprendiz 2) ---
     @Override
     public List<Estudiante> listarEstudiantes() {
         List<Estudiante> lista = repository.listarTodos();
@@ -27,14 +30,11 @@ public class CalificacionServiceImpl implements CalificacionService {
             System.out.println("No hay estudiantes registrados.");
         } else {
             System.out.println("\n--- Listado de Estudiantes ---");
-            for (Estudiante e : lista) {
-                System.out.println(e);
-            }
+            lista.forEach(System.out::println);
         }
         return lista;
     }
 
-    // --- Buscar estudiante por nombre (Santiago - Aprendiz 2) ---
     @Override
     public Estudiante buscarEstudiantePorNombre(String nombre) {
         Estudiante encontrado = repository.buscarPorNombre(nombre);
@@ -47,23 +47,27 @@ public class CalificacionServiceImpl implements CalificacionService {
         return encontrado;
     }
 
-    // --- Mostrar promedio individual ---
-    public void mostrarPromediosIndividuales() {
-        System.out.println("\n--- Promedios individuales ---");
-        for (Estudiante e : estudiantes) {
-            System.out.println(e.getNombre() + ": " + e.calcularPromedioIndividual());
-        }
-    }
-
-    // --- Calcular y mostrar promedio general ---
+    @Override
     public double calcularPromedioGeneral() {
-        return estudiantes.stream()
+        return repository.listarTodos().stream()
                 .mapToDouble(Estudiante::calcularPromedioIndividual)
                 .average()
                 .orElse(0.0);
     }
 
-    public void mostrarPromedioGeneral() {
-        System.out.println("\nPromedio general del grupo: " + calcularPromedioGeneral());
+    @Override
+    // función: valentina
+    public Estudiante obtenerEstudianteConMayorNota() {
+        return repository.listarTodos().stream()
+                .max(Comparator.comparingDouble(Estudiante::calcularPromedioIndividual))
+                .orElse(null);
+    }
+
+    @Override
+    // función: valentina
+    public List<Estudiante> obtenerEstudiantesAprobados() {
+        return repository.listarTodos().stream()
+                .filter(e -> e.calcularPromedioIndividual() >= NOTA_APROBACION)
+                .collect(Collectors.toList());
     }
 }
