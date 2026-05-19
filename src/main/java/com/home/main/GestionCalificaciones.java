@@ -28,7 +28,8 @@ public class GestionCalificaciones {
             System.out.println("2. Mostrar estudiantes");
             System.out.println("3. Calcular promedio general");
             System.out.println("4. Mostrar mayor nota");
-            System.out.println("5. Buscar estudiante");
+            System.out.println("5. Mostrar aprobados");
+            System.out.println("6. Buscar estudiante");
             System.out.println("0. Salir");
 
             System.out.print("Seleccione opción: ");
@@ -49,6 +50,9 @@ public class GestionCalificaciones {
                     mostrarMayorNota(service);
                     break;
                 case 5:
+                    mostrarAprobados(service);
+                    break;
+                case 6:
                     buscarEstudiante(service, sc);
                     break;
                 case 0:

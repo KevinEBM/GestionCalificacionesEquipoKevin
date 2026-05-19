@@ -62,4 +62,12 @@ public class CalificacionServiceImpl implements CalificacionService {
                 .max(Comparator.comparingDouble(Estudiante::calcularPromedioIndividual))
                 .orElse(null);
     }
+
+    @Override
+    // función: valentina
+    public List<Estudiante> obtenerEstudiantesAprobados() {
+        return repository.listarTodos().stream()
+                .filter(e -> e.calcularPromedioIndividual() >= NOTA_APROBACION)
+                .collect(Collectors.toList());
+    }
 }
