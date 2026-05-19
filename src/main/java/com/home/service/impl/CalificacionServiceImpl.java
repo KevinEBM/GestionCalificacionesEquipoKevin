@@ -8,6 +8,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+ /**
+ * CalificacionServiceImpl - Lógica de negocio limpia
+ * SOLID - Single Responsibility Principle (solo cálculos y gestión de datos)
+ */
 public class CalificacionServiceImpl implements CalificacionService {
 
     private static final double NOTA_APROBACION = 3.0;
@@ -25,26 +29,12 @@ public class CalificacionServiceImpl implements CalificacionService {
 
     @Override
     public List<Estudiante> listarEstudiantes() {
-        List<Estudiante> lista = repository.listarTodos();
-        if (lista.isEmpty()) {
-            System.out.println("No hay estudiantes registrados.");
-        } else {
-            System.out.println("\n--- Listado de Estudiantes ---");
-            lista.forEach(System.out::println);
-        }
-        return lista;
+        return repository.listarTodos();
     }
 
     @Override
     public Estudiante buscarEstudiantePorNombre(String nombre) {
-        Estudiante encontrado = repository.buscarPorNombre(nombre);
-        if (encontrado != null) {
-            System.out.println("\nEstudiante encontrado:");
-            System.out.println(encontrado);
-        } else {
-            System.out.println("No se encontró un estudiante con el nombre: " + nombre);
-        }
-        return encontrado;
+        return repository.buscarPorNombre(nombre);
     }
 
     @Override
@@ -56,7 +46,6 @@ public class CalificacionServiceImpl implements CalificacionService {
     }
 
     @Override
-    // función: valentina
     public Estudiante obtenerEstudianteConMayorNota() {
         return repository.listarTodos().stream()
                 .max(Comparator.comparingDouble(Estudiante::calcularPromedioIndividual))
@@ -64,7 +53,6 @@ public class CalificacionServiceImpl implements CalificacionService {
     }
 
     @Override
-    // función: valentina
     public List<Estudiante> obtenerEstudiantesAprobados() {
         return repository.listarTodos().stream()
                 .filter(e -> e.calcularPromedioIndividual() >= NOTA_APROBACION)
