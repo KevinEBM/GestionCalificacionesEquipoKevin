@@ -56,6 +56,13 @@ public class GestionCalificaciones {
                     break;
 
                 case 2:
+                    service.listarEstudiantes();
+                    break;
+
+                case 6:
+                    System.out.print("Ingrese nombre a buscar: ");
+                    String nombreBuscar = sc.nextLine();
+                    service.buscarEstudiantePorNombre(nombreBuscar);
                     break;
 
                 case 0:
